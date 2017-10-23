@@ -62,6 +62,10 @@ namespace FixWidth2Csv
 
             foreach(var width in widths)
             {
+                if (string.IsNullOrEmpty(rowLine))
+                {
+                    throw new ArgumentException("Row did not contain enough cells");
+                }
                 if(string.IsNullOrEmpty(csvline))
                 {
                     csvline = GetCell(rowLine, width);
@@ -71,6 +75,10 @@ namespace FixWidth2Csv
                     csvline += ";" + GetCell(rowLine, width);
                 }
                 rowLine = GetRemainingCells(rowLine, width);
+            }
+            if (!string.IsNullOrEmpty(rowLine))
+            {
+                throw new ArgumentException("Row contain too many cells");
             }
             return csvline;
         }

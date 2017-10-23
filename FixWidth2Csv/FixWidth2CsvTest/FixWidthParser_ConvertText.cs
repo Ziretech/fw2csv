@@ -120,12 +120,12 @@ namespace FixWidth2CsvTest
             var reader = new ReaderMock();
             reader.AddLine("id by å");
             reader.AddLine("-- -- --");
-            reader.AddLine("cg ");
+            reader.AddLine("cg "); // cg \na eg
             reader.AddLine("a eg");
             reader.AddLine("e  fy i");
 
             _parser.ConvertText(reader);
-            Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;å", "cg;a;eg", "e;fy;i" }));
+            Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;å", "cg;\na;eg", "e;fy;i" }));
         }
     }
 }

@@ -79,6 +79,41 @@ namespace FixWidth2CsvTest
             Assert.That(_parser.ConvertRow("abcde abcde", new[] { 5, 5 }), Is.EqualTo("abcde;abcde"));
         }
 
+        [Test]
+        public void FixWidthParser_convert_column_with_new_line()
+        {
+            Assert.That(_parser.ConvertRow("ab\nde abcde", new[] { 5, 5 }), Is.EqualTo("ab\nde;abcde"));
+        }
+
+        [Test]
+        public void FixWidthParser_throws_exception_when_row_doesnt_contain_enough_cells()
+        {
+            try
+            {
+                _parser.ConvertRow("abde", new[] {5, 5});
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("not"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("enough cells"));
+            }
+        }
+
+        [Test]
+        public void FixWidthParser_throws_exception_when_row_contain_too_many_cells()
+        {
+            try
+            {
+                _parser.ConvertRow("abde  hej   a", new[] { 5, 5 });
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("too many cells"));
+            }
+        }
+
         // get remaining cells
 
         [Test]
