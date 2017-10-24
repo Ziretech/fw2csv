@@ -113,7 +113,21 @@ namespace FixWidth2CsvTest
             Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;ås", "cg;;a" }));
         }
 
-        //[Ignore("Behöver fixa hantering av citationstecken kring brutna värden först... och testa mot databasen.")]
+        [Test]
+        public void FixWidthParser_convert_column_with_width_2_2_2_and_new_line_in_first_row_second_column_second_character()
+        {
+            var reader = new ReaderMock();
+            reader.AddLine("id by  å");
+            reader.AddLine("-- ---- --");
+            reader.AddLine("cg a"); // cg \na eg
+            reader.AddLine("b eg");
+            reader.AddLine("e  fy   i");
+
+            _parser.ConvertText(reader);
+            Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;å", "cg;a" + Environment.NewLine + "b;eg", "e;fy;i" }));
+        }
+
+        [Ignore("Trim tar också bort radbrytning, därför fungerar inte detta testfall. Det finns dock ingen cell med begynnande radbrytning i datat.")]
         [Test]
         public void FixWidthParser_convert_column_with_width_2_2_2_and_new_line_in_first_row_second_column_first_character()
         {
@@ -121,12 +135,11 @@ namespace FixWidth2CsvTest
             reader.AddLine("id by  å");
             reader.AddLine("-- --- --");
             reader.AddLine("cg "); // cg \na eg
-            reader.AddLine("a eg");
-            //reader.AddLine("cg \r\na eg");
+            reader.AddLine("b eg");
             reader.AddLine("e  fy  i");
 
             _parser.ConvertText(reader);
-            Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;å", $"cg;{Environment.NewLine}a;eg", "e;fy;i" }));
+            Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;å", "cg;" + Environment.NewLine + "b;eg", "e;fy;i" }));
         }
     }
 }
