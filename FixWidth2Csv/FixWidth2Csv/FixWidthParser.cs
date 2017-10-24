@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FixWidth2Csv
 {
-    class FixWidthParser
+    public class FixWidthParser
     {
         public IWriter Writer { private get; set; }
 
@@ -36,17 +36,30 @@ namespace FixWidth2Csv
             return csvline;
         }
 
-        internal void ConvertText(IReader reader)
+        public void ConvertText(IReader reader)
         {
-            Writer.Write(ConvertHeader(reader.ReadLine()));
-            var widths = GetColumnWidths(reader.ReadLine());
+            Writer.WriteRow(ConvertHeader(reader.ReadLine()));
+            var widths = GetColumnWidths(reader.ReadLine()).ToArray();
             var data = reader.ReadLine();
             while(data != null)
             {
-                Writer.Write(ConvertRow(data, widths));
+                data = GetRow(reader, data, widths);
+
+                Writer.WriteRow(ConvertRow(data, widths));
                 data = reader.ReadLine();
             }
             
+        }
+
+        private string GetRow(IReader reader, string data, int[] widths)
+        {
+            var nextPartOfRow = "";
+            while (nextPartOfRow != null && IsBrokenRow(data, widths))
+            {
+                nextPartOfRow = reader.ReadLine();
+                data += Environment.NewLine + nextPartOfRow;
+            }
+            return data;
         }
 
         internal bool IsBrokenRow(string row, int[] widths)

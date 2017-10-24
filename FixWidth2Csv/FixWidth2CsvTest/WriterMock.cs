@@ -16,7 +16,7 @@ namespace FixWidth2CsvTest
             WriteList = new List<string>();
         }
 
-        public void Write(string line)
+        public void WriteRow(string line)
         {
             WriteList.Add(line);
         }

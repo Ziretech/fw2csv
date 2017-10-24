@@ -27,15 +27,15 @@ namespace FixWidth2CsvTest
         [Test]
         public void WriterMock_have_one_written_line()
         {
-            _mock.Write("hej");
+            _mock.WriteRow("hej");
             Assert.That(_mock.WriteList, Is.EquivalentTo(new List<string>() { "hej" }));
         }
 
         [Test]
         public void WriterMock_have_two_written_lines()
         {
-            _mock.Write("hej");
-            _mock.Write("hej2");
+            _mock.WriteRow("hej");
+            _mock.WriteRow("hej2");
             Assert.That(_mock.WriteList, Is.EquivalentTo(new List<string>() { "hej", "hej2" }));
         }
     }
