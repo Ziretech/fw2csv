@@ -8,14 +8,13 @@ namespace FixWidth2Csv
 {
     public class FixWidthParser
     {
-        private string cellDelimiter;
-
-        public FixWidthParser(string cellDelimiter = ";")
+        public FixWidthParser()
         {
-            this.cellDelimiter = cellDelimiter;
+            CellDelimiter = ";";
         }
 
         public IWriter Writer { private get; set; }
+        public string CellDelimiter { get; set; }
 
         public string ConvertHeader(string headerLine)
         {
@@ -35,7 +34,7 @@ namespace FixWidth2Csv
                     }
                     else
                     {
-                        csvline += cellDelimiter + header;
+                        csvline += CellDelimiter + header;
                     }
                 }
             }
@@ -92,7 +91,7 @@ namespace FixWidth2Csv
                 }
                 else
                 {
-                    csvline += cellDelimiter + GetCell(rowLine, width);
+                    csvline += CellDelimiter + GetCell(rowLine, width);
                 }
                 rowLine = GetRemainingCells(rowLine, width);
             }

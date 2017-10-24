@@ -117,7 +117,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_uses_right_curly_bracket_as_cell_delimiter()
         {
-            var parser = new FixWidthParser("{");
+            var parser = new FixWidthParser { CellDelimiter = "{"};
             Assert.That(parser.ConvertRow("abde  hej", new[] { 5, 5 }), Is.EqualTo("abde{hej"));
         }
 
