@@ -44,17 +44,25 @@ namespace FixWidth2Csv
 
         public void ConvertText(IReader reader)
         {
-            Writer.WriteRow(ConvertHeader(reader.ReadLine()));
-            var widths = GetColumnWidths(reader.ReadLine()).ToArray();
-            var data = reader.ReadLine();
-            while(data != null)
+            var currentLine = 1;
+            try
             {
-                data = GetRow(reader, data, widths);
+                Writer.WriteRow(ConvertHeader(reader.ReadLine()));
+                var widths = GetColumnWidths(reader.ReadLine()).ToArray();
+                var data = reader.ReadLine();
+                while (data != null)
+                {
+                    data = GetRow(reader, data, widths);
 
-                Writer.WriteRow(ConvertRow(data, widths));
-                data = reader.ReadLine();
+                    Writer.WriteRow(ConvertRow(data, widths));
+                    currentLine ++;
+                    data = reader.ReadLine();
+                }
             }
-            
+            catch (ArgumentException exception)
+            {   
+                throw new ArgumentException(exception.Message + $" on line {currentLine}", exception);
+            }
         }
 
         private string GetRow(IReader reader, string data, int[] widths)
@@ -63,7 +71,11 @@ namespace FixWidth2Csv
             while (nextPartOfRow != null && IsBrokenRow(data, widths))
             {
                 nextPartOfRow = reader.ReadLine();
-                data += Environment.NewLine + nextPartOfRow;
+                if (nextPartOfRow != null)
+                {
+                    data += Environment.NewLine + nextPartOfRow;
+                }
+                
             }
             return data;
         }

@@ -141,5 +141,90 @@ namespace FixWidth2CsvTest
             _parser.ConvertText(reader);
             Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;å", "cg;" + Environment.NewLine + "b;eg", "e;fy;i" }));
         }
+
+        [Test]
+        public void FixWidthParser_throws_exception_when_there_is_too_many_cells_for_line_1()
+        {
+            var reader = new ReaderMock();
+            reader.AddLine("id by  å");
+            reader.AddLine("-- --- --");
+            reader.AddLine("cg ab  eg d");
+            reader.AddLine("e  fy  i");
+
+            try
+            {
+                _parser.ConvertText(reader);
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("too many"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("line 1"));
+            }
+        }
+
+        [Test]
+        public void FixWidthParser_throws_exception_when_there_is_too_many_cells_for_line_2()
+        {
+            var reader = new ReaderMock();
+            reader.AddLine("id by  å");
+            reader.AddLine("-- --- --");
+            reader.AddLine("cg ab  eg");
+            reader.AddLine("e  fy  i  j");
+
+            try
+            {
+                _parser.ConvertText(reader);
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("too many"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("line 2"));
+            }
+        }
+        
+        [Test]
+        public void FixWidthParser_throws_exception_when_there_is_precisely_too_few_cells()
+        {
+            var reader = new ReaderMock();
+            reader.AddLine("id by  å");
+            reader.AddLine("-- --- --");
+            reader.AddLine("e  fy ");
+
+            try
+            {
+                _parser.ConvertText(reader);
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("not"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("enough cells"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("line 1"));
+            }
+        }
+
+        [Test]
+        public void FixWidthParser_throws_exception_when_there_is_too_few_cells_for_line_2()
+        {
+            var reader = new ReaderMock();
+            reader.AddLine("id by  å");
+            reader.AddLine("-- --- --");
+            reader.AddLine("cg ab  eg");
+            reader.AddLine("e  fy");
+
+            try
+            {
+                _parser.ConvertText(reader);
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("not"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("enough cells"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("line 2"));
+            }
+        }
     }
 }

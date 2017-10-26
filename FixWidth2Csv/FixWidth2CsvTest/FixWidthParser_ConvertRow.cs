@@ -101,6 +101,21 @@ namespace FixWidth2CsvTest
         }
 
         [Test]
+        public void FixWidthParser_throws_exception_when_row_doesnt_precisly_contain_enough_cells()
+        {
+            try
+            {
+                _parser.ConvertRow("e  fy ", new[] { 2, 3, 2 });
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("not"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("enough cells"));
+            }
+        }
+
+        [Test]
         public void FixWidthParser_throws_exception_when_row_contain_too_many_cells()
         {
             try
