@@ -117,7 +117,7 @@ namespace FixWidth2CsvTest
         public void FixWidthParser_convert_column_with_width_2_2_2_and_new_line_in_first_row_second_column_second_character()
         {
             var reader = new ReaderMock();
-            reader.AddLine("id by  å");
+            reader.AddLine("id by   å");
             reader.AddLine("-- ---- --");
             reader.AddLine("cg a"); // cg \na eg
             reader.AddLine("b eg");
@@ -127,19 +127,30 @@ namespace FixWidth2CsvTest
             Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;å", "cg;a" + Environment.NewLine + "b;eg", "e;fy;i" }));
         }
 
-        [Ignore("Trim tar också bort radbrytning, därför fungerar inte detta testfall. Det finns dock ingen cell med begynnande radbrytning i datat.")]
         [Test]
         public void FixWidthParser_convert_column_with_width_2_2_2_and_new_line_in_first_row_second_column_first_character()
         {
             var reader = new ReaderMock();
             reader.AddLine("id by  å");
             reader.AddLine("-- --- --");
-            reader.AddLine("cg "); // cg \na eg
+            reader.AddLine("cg "); // cg \nb eg
             reader.AddLine("b eg");
             reader.AddLine("e  fy  i");
 
             _parser.ConvertText(reader);
             Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by;å", "cg;" + Environment.NewLine + "b;eg", "e;fy;i" }));
+        }
+
+        [Test]
+        public void FixWidthParser_convert_header_with_space_in_name()
+        {
+            var reader = new ReaderMock();
+            reader.AddLine("id by stad");
+            reader.AddLine("-- -------");
+            reader.AddLine("1  info");
+
+            _parser.ConvertText(reader);
+            Assert.That(_writer.WriteList, Is.EquivalentTo(new List<string>() { "id;by stad", "1;info" }));
         }
 
         [Test]
@@ -224,6 +235,26 @@ namespace FixWidth2CsvTest
                 Assert.That(exception.Message.ToLower(), Does.Contain("not"));
                 Assert.That(exception.Message.ToLower(), Does.Contain("enough cells"));
                 Assert.That(exception.Message.ToLower(), Does.Contain("line 2"));
+            }
+        }
+
+        [Test]
+        public void FixWidthParser_throws_exception_when_column_separation_is_not_space()
+        {
+            var reader = new ReaderMock();
+            reader.AddLine("id by");
+            reader.AddLine("-- --");
+            reader.AddLine("cgeab");
+
+            try
+            {
+                _parser.ConvertText(reader);
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("not separated by space"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("line 1"));
             }
         }
     }

@@ -168,6 +168,20 @@ namespace FixWidth2CsvTest
             Assert.That(_parser.GetRemainingCells("a     bcd", 5), Is.EqualTo("bcd"));
         }
 
+        [Test]
+        public void FixWidthParser_throws_exception_when_remaining_cells_are_not_separated_by_space()
+        {
+            try
+            {
+                _parser.GetRemainingCells("axb", 1);
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (ArgumentException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("not separated by space"));
+            }
+        }
+
         // read cell
         [Test]
         public void FixWidthParser_read_cell_a_with_width_1()
@@ -209,6 +223,18 @@ namespace FixWidth2CsvTest
         public void FixWidthParser_read_empty_cell_followed_by_b_with_width_5()
         {
             Assert.That(_parser.GetCell("      b", 5), Is.EqualTo(""));
+        }
+
+        [Test]
+        public void FixWidthParser_read_cell_with_leading_space()
+        {
+            Assert.That(_parser.GetCell(" a", 2), Is.EqualTo(" a"));
+        }
+
+        [Test]
+        public void FixWidthParser_read_cell_with_leading_space_when_cells_are_following()
+        {
+            Assert.That(_parser.GetCell(" id  hej", 4), Is.EqualTo(" id"));
         }
     }
 }

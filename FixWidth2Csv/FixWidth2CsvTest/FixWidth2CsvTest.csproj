@@ -46,7 +46,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FixWidthParser_ConvertHeaders.cs" />
     <Compile Include="FixWidthParser_ConvertRow.cs" />
     <Compile Include="FixWidthParser_ConvertText.cs" />
     <Compile Include="FixWidthParser_GetColumnWidth.cs" />

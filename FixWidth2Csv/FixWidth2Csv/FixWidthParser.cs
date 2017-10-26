@@ -16,44 +16,18 @@ namespace FixWidth2Csv
         public IWriter Writer { private get; set; }
         public string CellDelimiter { get; set; }
 
-        public string ConvertHeader(string headerLine)
-        {
-            if (IsNotDefinedText(headerLine))
-            {
-                throw new ArgumentException("No header was found.");
-            }
-
-            var csvline = "";
-            foreach (var header in headerLine.Split(' '))
-            {
-                if (!string.IsNullOrEmpty(header))
-                {
-                    if (string.IsNullOrEmpty(csvline))
-                    {
-                        csvline += header;
-                    }
-                    else
-                    {
-                        csvline += CellDelimiter + header;
-                    }
-                }
-            }
-
-            return csvline;
-        }
-
         public void ConvertText(IReader reader)
         {
             var currentLine = 1;
             try
             {
-                Writer.WriteRow(ConvertHeader(reader.ReadLine()));
+                var headerLine = reader.ReadLine();
                 var widths = GetColumnWidths(reader.ReadLine()).ToArray();
+                Writer.WriteRow(ConvertRow(headerLine, widths));
                 var data = reader.ReadLine();
                 while (data != null)
                 {
                     data = GetRow(reader, data, widths);
-
                     Writer.WriteRow(ConvertRow(data, widths));
                     currentLine ++;
                     data = reader.ReadLine();
@@ -137,12 +111,27 @@ namespace FixWidth2Csv
 
         internal string GetRemainingCells(string rowLine, int width)
         {
-            return rowLine.Length > width ? rowLine.Substring(width+1) : "";
+            if (rowLine.Length <= width)
+            {
+                return "";
+            }
+                
+            if (!IsCellFollowedBySpace(rowLine, width))
+            {
+                throw new ArgumentException("Cells are not separated by space");
+            }
+
+            return rowLine.Substring(width + 1);
+        }
+
+        private bool IsCellFollowedBySpace(string rowLine, int width)
+        {
+            return rowLine.Substring(width, 1).Equals(" ");
         }
 
         internal string GetCell(string cells, int width)
         {
-            return cells.Length < width ? cells.Trim() : cells.Substring(0, width).Trim();
+            return cells.Length <= width ? cells.TrimEnd() : cells.Substring(0, width).TrimEnd();
         }
 
         private bool IsNotDefinedText(string headerLine)

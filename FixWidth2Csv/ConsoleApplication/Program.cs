@@ -18,7 +18,7 @@ namespace ConsoleApplication
             Console.InputEncoding = System.Text.Encoding.UTF8;
             Console.OutputEncoding = Encoding.GetEncoding("ISO-8859-1");
             var converter = new FixWidthParser {Writer = new Writer {RowDelimiter = rowDelimiter}, CellDelimiter = cellDelimiter};
-            converter.ConvertText(new Reader());
+            converter.ConvertText(new Reader { Delimiters = new[] {rowDelimiter, cellDelimiter}});
         }
     }
 
@@ -36,7 +36,17 @@ namespace ConsoleApplication
     {
         public string ReadLine()
         {
-            return Console.ReadLine();
+            var line = Console.ReadLine();
+            foreach (var delimiter in Delimiters)
+            {
+                if (!string.IsNullOrEmpty(line) && line.Contains(delimiter))
+                {
+                    throw new ArgumentException($"Source text contain delimiter sequence ({delimiter})");
+                }
+            }
+            return line;
         }
+
+        public string[] Delimiters { get; set; }
     }
 }
