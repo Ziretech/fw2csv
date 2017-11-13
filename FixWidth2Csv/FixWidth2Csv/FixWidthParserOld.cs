@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FixWidth2Csv
 {
-    public class FixWidthParser
+    public class FixWidthParserOld
     {
-        public FixWidthParser()
+        public FixWidthParserOld()
         {
             CellDelimiter = ";";
         }

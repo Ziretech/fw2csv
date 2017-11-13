@@ -11,12 +11,12 @@ namespace FixWidth2CsvTest
     [TestFixture]
     public class FixWidthParser_IsBrokenRow
     {
-        private FixWidthParser _parser;
+        private FixWidthParserOld _parser;
 
         [SetUp]
         public void SetUp()
         {
-            _parser = new FixWidthParser();
+            _parser = new FixWidthParserOld();
         }
 
         [Test]

@@ -11,14 +11,14 @@ namespace FixWidth2CsvTest
     [TestFixture]
     public class FixWidthParser_ConvertText
     {
-        private FixWidthParser _parser;
+        private FixWidthParserOld _parser;
         private WriterMockOld _writer;
 
         [SetUp]
         public void SetUp()
         {
             _writer = new WriterMockOld();
-            _parser = new FixWidthParser {Writer = _writer};
+            _parser = new FixWidthParserOld {Writer = _writer};
         }
 
         [Test]

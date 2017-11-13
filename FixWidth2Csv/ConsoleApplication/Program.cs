@@ -17,7 +17,7 @@ namespace ConsoleApplication
         {
             Console.InputEncoding = System.Text.Encoding.UTF8;
             Console.OutputEncoding = Encoding.GetEncoding("ISO-8859-1");
-            var converter = new FixWidthParser {Writer = new Writer {RowDelimiter = rowDelimiter}, CellDelimiter = cellDelimiter};
+            var converter = new FixWidthParserOld {Writer = new Writer {RowDelimiter = rowDelimiter}, CellDelimiter = cellDelimiter};
             converter.ConvertText(new Reader { Delimiters = new[] {rowDelimiter, cellDelimiter}});
         }
     }
