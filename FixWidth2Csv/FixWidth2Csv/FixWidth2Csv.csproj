@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConvertFixWidthToCsv.cs" />
     <Compile Include="FixWidthParserOld.cs" />
     <Compile Include="IReader.cs" />
     <Compile Include="IReaderOld.cs" />
