@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace FixWidth2CsvTest
 {
     [TestFixture]
-    public class ReaderMockTest
+    public class ReaderMockOldSpec
     {
-        private ReaderMock _mock;
+        private ReaderMockOld _mock;
 
         [SetUp]
         public void SetUp()
         {
-            _mock = new ReaderMock();
+            _mock = new ReaderMockOld();
         }
 
         [Test]

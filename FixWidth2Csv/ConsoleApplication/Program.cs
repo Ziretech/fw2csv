@@ -22,7 +22,7 @@ namespace ConsoleApplication
         }
     }
 
-    class Writer : IWriter
+    class Writer : IWriterOld
     {
         public string RowDelimiter { get; set; }
 
@@ -32,7 +32,7 @@ namespace ConsoleApplication
         }
     }
 
-    class Reader : IReader
+    class Reader : IReaderOld
     {
         public string ReadLine()
         {

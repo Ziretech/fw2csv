@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace FixWidth2CsvTest
 {
-    class ReaderMock : IReader
+    class ReaderMockOld : IReaderOld
     {
         private List<string> lines;
         private int linesRead;
 
-        public ReaderMock()
+        public ReaderMockOld()
         {
             lines = new List<string>();
         }

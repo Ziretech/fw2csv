@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace FixWidth2CsvTest
 {
-    class WriterMock : IWriter
+    class WriterMockOld : IWriterOld
     {
         public List<string> WriteList { get; private set; }
 
-        public WriterMock()
+        public WriterMockOld()
         {
             WriteList = new List<string>();
         }

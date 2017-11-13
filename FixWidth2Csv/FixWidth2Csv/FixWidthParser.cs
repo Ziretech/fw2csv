@@ -13,10 +13,10 @@ namespace FixWidth2Csv
             CellDelimiter = ";";
         }
 
-        public IWriter Writer { private get; set; }
+        public IWriterOld Writer { private get; set; }
         public string CellDelimiter { get; set; }
 
-        public void ConvertText(IReader reader)
+        public void ConvertText(IReaderOld reader)
         {
             var currentLine = 1;
             try
@@ -39,7 +39,7 @@ namespace FixWidth2Csv
             }
         }
 
-        private string GetRow(IReader reader, string data, int[] widths)
+        private string GetRow(IReaderOld reader, string data, int[] widths)
         {
             var nextPartOfRow = "";
             while (nextPartOfRow != null && IsBrokenRow(data, widths))

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace FixWidth2Csv
 {
-    public interface IWriter
+    public interface IReaderOld
     {
-        void WriteRow(string line);
+        string ReadLine();
     }
 }

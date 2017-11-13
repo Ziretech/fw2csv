@@ -12,12 +12,12 @@ namespace FixWidth2CsvTest
     public class FixWidthParser_ConvertText
     {
         private FixWidthParser _parser;
-        private WriterMock _writer;
+        private WriterMockOld _writer;
 
         [SetUp]
         public void SetUp()
         {
-            _writer = new WriterMock();
+            _writer = new WriterMockOld();
             _parser = new FixWidthParser();
             _parser.Writer = _writer;
         }
@@ -25,7 +25,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_1_and_1_row()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("a");
             reader.AddLine("-");
             reader.AddLine("b");
@@ -37,7 +37,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_1_and_1_row_and_another_data()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("c");
             reader.AddLine("-");
             reader.AddLine("d");
@@ -49,7 +49,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_1_and_2_rows()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("c");
             reader.AddLine("-");
             reader.AddLine("d");
@@ -62,7 +62,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_1_and_5_rows()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("c");
             reader.AddLine("-");
             reader.AddLine("1");
@@ -78,7 +78,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_1_1_and_2_rows()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("a b");
             reader.AddLine("- -");
             reader.AddLine("c d");
@@ -91,7 +91,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_2_2_and_2_rows()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id b");
             reader.AddLine("-- --");
             reader.AddLine("cg d");
@@ -104,7 +104,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_2_2_2_and_middle_column_value_missing()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by ås");
             reader.AddLine("-- -- --");
             reader.AddLine("cg    a");
@@ -116,7 +116,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_2_2_2_and_new_line_in_first_row_second_column_second_character()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by   å");
             reader.AddLine("-- ---- --");
             reader.AddLine("cg a"); // cg \na eg
@@ -130,7 +130,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_column_with_width_2_2_2_and_new_line_in_first_row_second_column_first_character()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by  å");
             reader.AddLine("-- --- --");
             reader.AddLine("cg "); // cg \nb eg
@@ -144,7 +144,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_convert_header_with_space_in_name()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by stad");
             reader.AddLine("-- -------");
             reader.AddLine("1  info");
@@ -156,7 +156,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_throws_exception_when_there_is_too_many_cells_for_line_1()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by  å");
             reader.AddLine("-- --- --");
             reader.AddLine("cg ab  eg d");
@@ -177,7 +177,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_throws_exception_when_there_is_too_many_cells_for_line_2()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by  å");
             reader.AddLine("-- --- --");
             reader.AddLine("cg ab  eg");
@@ -198,7 +198,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_throws_exception_when_there_is_precisely_too_few_cells()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by  å");
             reader.AddLine("-- --- --");
             reader.AddLine("e  fy ");
@@ -219,7 +219,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_throws_exception_when_there_is_too_few_cells_for_line_2()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by  å");
             reader.AddLine("-- --- --");
             reader.AddLine("cg ab  eg");
@@ -241,7 +241,7 @@ namespace FixWidth2CsvTest
         [Test]
         public void FixWidthParser_throws_exception_when_column_separation_is_not_space()
         {
-            var reader = new ReaderMock();
+            var reader = new ReaderMockOld();
             reader.AddLine("id by");
             reader.AddLine("-- --");
             reader.AddLine("cgeab");
