@@ -13,7 +13,7 @@ namespace FixWidth2Csv
         public void Convert(IReader reader)
         {
             var headers = reader.ReadLine(1);
-            var delimiters = reader.ReadLine(1);
+            var delimiters = new Delimiters(reader.ReadLine(1));
             var rows = reader.ReadLine(1);
 
             Writer.WriteRow(new[] { headers });

@@ -46,5 +46,18 @@ namespace FixWidth2CsvTest
             Assert.That(_writer.RowList[0], Is.EquivalentTo(new[] { "namn" }));
             Assert.That(_writer.RowList[1], Is.EquivalentTo(new[] { "ola" }));
         }
+
+        [Test]
+        [Ignore("Test class Delimiters first")]
+        public void Converter_converts_2_column_text_to_csv()
+        {
+            _reader.AddLine("id   namn");
+            _reader.AddLine("---- ----");
+            _reader.AddLine("12   ola");
+            _converter.Convert(_reader);
+
+            Assert.That(_writer.RowList[0], Is.EquivalentTo(new[] { "id", "namn" }));
+            Assert.That(_writer.RowList[1], Is.EquivalentTo(new[] { "12", "ola" }));
+        }
     }
 }

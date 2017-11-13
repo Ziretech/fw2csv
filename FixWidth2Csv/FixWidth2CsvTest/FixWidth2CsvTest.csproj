@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertFixWidthToCsvSpec.cs" />
+    <Compile Include="DelimitersSpec.cs" />
     <Compile Include="FixWidthParser_ConvertRow.cs" />
     <Compile Include="FixWidthParser_ConvertText.cs" />
     <Compile Include="FixWidthParser_GetColumnWidth.cs" />
