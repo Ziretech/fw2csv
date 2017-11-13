@@ -70,5 +70,72 @@ namespace FixWidth2CsvTest
             _mock.ReadLine();
             Assert.That(_mock.ReadLine(), Is.EqualTo("hej3"));
         }
+
+        [Test]
+        public void ReaderMock_return_line_h_when_reading_1_character()
+        {
+            _mock.AddLine("h");
+            Assert.That(_mock.ReadCharacters(1), Is.EqualTo("h"));
+        }
+
+        [Test]
+        public void ReaderMock_return_line_a_when_reading_1_character()
+        {
+            _mock.AddLine("a");
+            Assert.That(_mock.ReadCharacters(1), Is.EqualTo("a"));
+        }
+
+        [Test]
+        public void ReaderMock_return_line_a_when_reading_1_character_after_previous_reading()
+        {
+            _mock.AddLine("b");
+            _mock.AddLine("a");
+            _mock.ReadLine();
+            Assert.That(_mock.ReadCharacters(1), Is.EqualTo("a"));
+        }
+
+        [Test]
+        public void ReaderMock_return_line_a_when_reading_3_character()
+        {
+            _mock.AddLine("abc");
+            Assert.That(_mock.ReadCharacters(3), Is.EqualTo("abc"));
+        }
+
+        [Test]
+        public void ReaderMock_return_null_when_no_lines_are_available()
+        {
+            Assert.That(_mock.ReadCharacters(3), Is.Null);
+        }
+
+        [Test]
+        public void ReaderMock_return_null_when_no_more_lines_are_available()
+        {
+            _mock.AddLine("a");
+            _mock.ReadCharacters(1);
+            Assert.That(_mock.ReadCharacters(2), Is.Null);
+        }
+
+        [Test]
+        public void ReaderMock_return_2_characters_from_string_with_4_characters()
+        {
+            _mock.AddLine("abcd");
+            Assert.That(_mock.ReadCharacters(2), Is.EqualTo("ab"));
+        }
+
+        [Test]
+        public void ReaderMock_return_remaining_2_characters_from_string_with_4_characters_after_2_have_been_read()
+        {
+            _mock.AddLine("abcd");
+            _mock.ReadCharacters(2);
+            Assert.That(_mock.ReadCharacters(2), Is.EqualTo("cd"));
+        }
+
+        [Test]
+        public void ReaderMock_return_remaining_characters_from_string_with_4_characters_after_2_have_been_read()
+        {
+            _mock.AddLine("abcd");
+            _mock.ReadCharacters(2);
+            Assert.That(_mock.ReadLine(), Is.EqualTo("cd"));
+        }
     }
 }

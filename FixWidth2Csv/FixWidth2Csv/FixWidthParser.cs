@@ -24,14 +24,21 @@ namespace FixWidth2Csv
                 var headerLine = reader.ReadLine();
                 var widths = GetColumnWidths(reader.ReadLine()).ToArray();
                 Writer.WriteRow(ConvertRow(headerLine, widths));
-                var data = reader.ReadLine();
-                while (data != null)
+
+                string row;
+                do
                 {
-                    data = GetRow(reader, data, widths);
-                    Writer.WriteRow(ConvertRow(data, widths));
-                    currentLine ++;
-                    data = reader.ReadLine();
-                }
+                    row = "";
+                    for (var i = 0; i < widths.Length - 1; i++)
+                    {
+                        row += reader.ReadCharacters(widths[i] + 1);
+                    }
+                    row += reader.ReadLine();
+                    if (row.Length > 0)
+                    {
+                        Writer.WriteRow(ConvertRow(row, widths));
+                    }
+                } while (row.Length > 0);
             }
             catch (ArgumentException exception)
             {   
@@ -39,8 +46,27 @@ namespace FixWidth2Csv
             }
         }
 
+        //private string GetRow(IReader reader, string data, int[] widths)
+        //{
+        //    var nextPartOfRow = "";
+        //    while (nextPartOfRow != null && IsBrokenRow(data, widths))
+        //    {
+        //        nextPartOfRow = reader.ReadLine();
+        //        if (nextPartOfRow != null)
+        //        {
+        //            data += Environment.NewLine + nextPartOfRow;
+        //        }
+
+        //    }
+        //    return data;
+        //}
+
         private string GetRow(IReader reader, string data, int[] widths)
         {
+            foreach (var width in widths)
+            {
+                
+            }
             var nextPartOfRow = "";
             while (nextPartOfRow != null && IsBrokenRow(data, widths))
             {
@@ -49,7 +75,7 @@ namespace FixWidth2Csv
                 {
                     data += Environment.NewLine + nextPartOfRow;
                 }
-                
+
             }
             return data;
         }

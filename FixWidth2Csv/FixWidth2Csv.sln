@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixWidth2Csv", "FixWidth2Cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.csproj", "{2252CB84-8F10-4CC1-B299-14F6B8AC5DAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplicationTest", "ConsoleApplicationTest\ConsoleApplicationTest.csproj", "{CB38D782-2A27-431A-AC08-479CD6D7CC0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2252CB84-8F10-4CC1-B299-14F6B8AC5DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2252CB84-8F10-4CC1-B299-14F6B8AC5DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2252CB84-8F10-4CC1-B299-14F6B8AC5DAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB38D782-2A27-431A-AC08-479CD6D7CC0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB38D782-2A27-431A-AC08-479CD6D7CC0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB38D782-2A27-431A-AC08-479CD6D7CC0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB38D782-2A27-431A-AC08-479CD6D7CC0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

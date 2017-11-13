@@ -9,5 +9,6 @@ namespace FixWidth2Csv
     public interface IReader
     {
         string ReadLine();
+        string ReadCharacters(int numberOfCharacters);
     }
 }

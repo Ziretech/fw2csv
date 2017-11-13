@@ -47,6 +47,11 @@ namespace ConsoleApplication
             return line;
         }
 
+        public string ReadCharacters(int numberOfCharacters)
+        {
+            throw new NotImplementedException();
+        }
+
         public string[] Delimiters { get; set; }
     }
 }
