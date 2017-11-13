@@ -18,8 +18,7 @@ namespace FixWidth2CsvTest
         public void SetUp()
         {
             _writer = new WriterMockOld();
-            _parser = new FixWidthParser();
-            _parser.Writer = _writer;
+            _parser = new FixWidthParser {Writer = _writer};
         }
 
         [Test]

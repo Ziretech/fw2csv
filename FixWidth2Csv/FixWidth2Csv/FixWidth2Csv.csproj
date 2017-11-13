@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FixWidthParser.cs" />
+    <Compile Include="IReader.cs" />
     <Compile Include="IReaderOld.cs" />
+    <Compile Include="IWriter.cs" />
     <Compile Include="IWriterOld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
