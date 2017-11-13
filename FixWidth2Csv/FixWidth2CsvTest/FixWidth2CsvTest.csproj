@@ -57,6 +57,7 @@
     <Compile Include="ReaderMockOld.cs" />
     <Compile Include="ReaderMockOldSpec.cs" />
     <Compile Include="ReaderMockSpec.cs" />
+    <Compile Include="RowsSpec.cs" />
     <Compile Include="WriterMock.cs" />
     <Compile Include="WriterMockOld.cs" />
     <Compile Include="WriterMockOldSpec.cs" />

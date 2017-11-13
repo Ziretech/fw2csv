@@ -16,6 +16,8 @@ namespace FixWidth2Csv
             var delimiters = new Delimiters(reader.ReadLine(1));
             var rows = reader.ReadLine(1);
 
+            var headerRow = new Rows(headers, delimiters.GetColumnWidths());
+
             Writer.WriteRow(new[] { headers });
             Writer.WriteRow(new[] { rows });
         }

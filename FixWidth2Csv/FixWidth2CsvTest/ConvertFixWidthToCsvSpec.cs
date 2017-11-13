@@ -48,7 +48,7 @@ namespace FixWidth2CsvTest
         }
 
         [Test]
-        [Ignore("Test class Delimiters first")]
+        [Ignore("Test class Rows first")]
         public void Converter_converts_2_column_text_to_csv()
         {
             _reader.AddLine("id   namn");
