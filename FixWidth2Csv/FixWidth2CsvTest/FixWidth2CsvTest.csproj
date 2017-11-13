@@ -55,8 +55,10 @@
     <Compile Include="ReaderMockOld.cs" />
     <Compile Include="ReaderMockOldSpec.cs" />
     <Compile Include="ReaderMockSpec.cs" />
+    <Compile Include="WriterMock.cs" />
     <Compile Include="WriterMockOld.cs" />
     <Compile Include="WriterMockOldSpec.cs" />
+    <Compile Include="WriterMockSpec.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
