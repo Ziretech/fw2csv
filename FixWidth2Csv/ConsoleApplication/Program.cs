@@ -21,37 +21,4 @@ namespace ConsoleApplication
             converter.ConvertText(new Reader { Delimiters = new[] {rowDelimiter, cellDelimiter}});
         }
     }
-
-    class Writer : IWriter
-    {
-        public string RowDelimiter { get; set; }
-
-        public void WriteRow(string line)
-        {
-            Console.Write(line + RowDelimiter);
-        }
-    }
-
-    class Reader : IReader
-    {
-        public string ReadLine()
-        {
-            var line = Console.ReadLine();
-            foreach (var delimiter in Delimiters)
-            {
-                if (!string.IsNullOrEmpty(line) && line.Contains(delimiter))
-                {
-                    throw new ArgumentException($"Source text contain delimiter sequence ({delimiter})");
-                }
-            }
-            return line;
-        }
-
-        public string ReadCharacters(int numberOfCharacters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string[] Delimiters { get; set; }
-    }
 }
