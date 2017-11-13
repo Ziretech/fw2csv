@@ -47,14 +47,14 @@ namespace FixWidth2CsvTest
             _reader.AddLine("ab");
             try
             {
-                _reader.ReadLine(1);
+                _reader.ReadLine(3);
                 Assert.Fail("No exception was made.");
             }
             catch (ArgumentException exception)
             {
                 
                 Assert.That(exception.Message.ToLower(), Does.Contain("shorter"));
-                Assert.That(exception.Message.ToLower(), Does.Contain("1"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("3"));
                 Assert.That(exception.Message.ToLower(), Does.Contain("ab"));
             }
         }
@@ -65,14 +65,14 @@ namespace FixWidth2CsvTest
             _reader.AddLine("abc");
             try
             {
-                _reader.ReadLine(2);
+                _reader.ReadLine(4);
                 Assert.Fail("No exception was made.");
             }
             catch (ArgumentException exception)
             {
 
                 Assert.That(exception.Message.ToLower(), Does.Contain("shorter"));
-                Assert.That(exception.Message.ToLower(), Does.Contain("2"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("4"));
                 Assert.That(exception.Message.ToLower(), Does.Contain("abc"));
             }
         }

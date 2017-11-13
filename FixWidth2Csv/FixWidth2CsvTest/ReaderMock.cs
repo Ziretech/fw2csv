@@ -17,9 +17,9 @@ namespace FixWidth2CsvTest
         {
             var line = _lines.Dequeue();
 
-            if (line.Length > minimalNumberOfCharacters)
+            if (line.Length < minimalNumberOfCharacters)
             {
-                throw new ArgumentException($"Requested minimal linesize ({minimalNumberOfCharacters}) is shorter than expected string {line}");
+                throw new ArgumentException($"Requested minimal linesize ({minimalNumberOfCharacters}) is shorter than expected string \"{line}\"");
             }
             
             return line;
