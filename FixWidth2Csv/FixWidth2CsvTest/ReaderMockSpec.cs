@@ -76,5 +76,26 @@ namespace FixWidth2CsvTest
                 Assert.That(exception.Message.ToLower(), Does.Contain("abc"));
             }
         }
+
+        [Test]
+        public void ReaderMock_have_more_lines()
+        {
+            _reader.AddLine("a");
+            Assert.That(_reader.MoreLines, Is.True);
+        }
+
+        [Test]
+        public void ReaderMock_have_no_more_lines_after_last()
+        {
+            _reader.AddLine("a");
+            _reader.ReadLine(1);
+            Assert.That(_reader.MoreLines, Is.False);
+        }
+
+        [Test]
+        public void ReaderMock_have_no_lines_when_no_was_available()
+        {
+            Assert.That(_reader.MoreLines, Is.False);
+        }
     }
 }

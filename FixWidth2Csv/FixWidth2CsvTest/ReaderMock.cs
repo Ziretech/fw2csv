@@ -8,6 +8,8 @@ namespace FixWidth2CsvTest
     {
         private readonly Queue<string> _lines = new Queue<string>();
 
+        public bool MoreLines => _lines.Count > 0;
+
         public void AddLine(string line)
         {
             _lines.Enqueue(line);
