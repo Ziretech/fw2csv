@@ -133,5 +133,19 @@ namespace FixWidth2CsvTest
             var rows = new Rows("ab   ", new[] { 5 });
             Assert.That(rows.GetCell(0, 5), Is.EqualTo("ab"));
         }
+
+        [Test]
+        public void GetCell_removed_trailing_spaces_but_not_new_line()
+        {
+            var rows = new Rows("ab\n  ", new[] { 5 });
+            Assert.That(rows.GetCell(0, 5), Is.EqualTo("ab\n"));
+        }
+
+        [Test]
+        public void GetCell_keep_beginning_spaces()
+        {
+            var rows = new Rows("  ab ", new[] { 5 });
+            Assert.That(rows.GetCell(0, 5), Is.EqualTo("  ab"));
+        }
     }
 }

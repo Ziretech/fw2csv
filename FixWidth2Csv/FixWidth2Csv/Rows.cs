@@ -28,7 +28,7 @@ namespace FixWidth2Csv
         {
             var adjustedLength = start + length <= _rowString.Length ? length : length - ((start + length) - _rowString.Length);
 
-            return _rowString.Substring(start, adjustedLength).TrimEnd();
+            return _rowString.Substring(start, adjustedLength).TrimEnd(' ');
         }
     }
 }
