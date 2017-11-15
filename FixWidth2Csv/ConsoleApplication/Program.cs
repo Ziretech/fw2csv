@@ -15,14 +15,19 @@ namespace ConsoleApplication
 
         static void Main(string[] args)
         {
-            Console.InputEncoding = System.Text.Encoding.UTF8;
-            Console.OutputEncoding = Encoding.GetEncoding("ISO-8859-1");
-            var converter = new FixWidthParserOld {Writer = new Writer {RowDelimiter = rowDelimiter}, CellDelimiter = cellDelimiter};
-            converter.ConvertText(new Reader { Delimiters = new[] {rowDelimiter, cellDelimiter}});
+            //Console.InputEncoding = System.Text.Encoding.UTF8;
+            //Console.OutputEncoding = Encoding.GetEncoding("ISO-8859-1");
+            //var converter = new FixWidthParserOld {Writer = new WriterOld {RowDelimiter = rowDelimiter}, CellDelimiter = cellDelimiter};
+            //converter.ConvertText(new ReaderOld { Delimiters = new[] {rowDelimiter, cellDelimiter}});
+
+            using (var outputStream = File.OpenWrite(@"c:\temp\fil.txt"))
+            {
+                var writer = new Writer(outputStream, new CsvConverter());
+            }
         }
     }
 
-    class Writer : IWriterOld
+    class WriterOld : IWriterOld
     {
         public string RowDelimiter { get; set; }
 
@@ -32,7 +37,7 @@ namespace ConsoleApplication
         }
     }
 
-    class Reader : IReaderOld
+    class ReaderOld : IReaderOld
     {
         public string ReadLine()
         {
