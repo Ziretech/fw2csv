@@ -20,9 +20,17 @@ namespace ConsoleApplication
             //var converter = new FixWidthParserOld {Writer = new WriterOld {RowDelimiter = rowDelimiter}, CellDelimiter = cellDelimiter};
             //converter.ConvertText(new ReaderOld { Delimiters = new[] {rowDelimiter, cellDelimiter}});
 
+            
+
             using (var outputStream = File.OpenWrite(@"c:\temp\fil.txt"))
             {
-                var writer = new Writer(outputStream, new CsvConverter());
+                using (var inputStream = File.OpenRead(@"c:\temp\fixwidthexempel.txt"))
+                {
+                    var writer = new Writer(outputStream, new CsvConverter());
+                    var reader = new Reader(inputStream);
+                    var converter = new ConvertFixWidthToMatrix { Writer = writer };
+                    converter.Convert(reader);
+                }
             }
         }
     }

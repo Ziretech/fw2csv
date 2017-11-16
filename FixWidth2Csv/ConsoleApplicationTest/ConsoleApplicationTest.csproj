@@ -54,8 +54,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ByteBufferSpec.cs" />
     <Compile Include="CsvConverterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReaderSpec.cs" />
     <Compile Include="WriterSpec.cs" />
   </ItemGroup>
   <ItemGroup>

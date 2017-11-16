@@ -13,14 +13,14 @@ namespace FixWidth2CsvTest
     {
         private WriterMock _writer;
         private ReaderMock _reader;
-        private ConvertFixWidthToCsv _converter;
+        private ConvertFixWidthToMatrix _converter;
 
         [SetUp]
         public void Setup()
         {
             _writer = new WriterMock();
             _reader = new ReaderMock();
-            _converter = new ConvertFixWidthToCsv { Writer = _writer };
+            _converter = new ConvertFixWidthToMatrix { Writer = _writer };
         }
 
         [Test]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FixWidth2Csv
 {
-    public class ConvertFixWidthToCsv
+    public class ConvertFixWidthToMatrix
     {
         public IWriter Writer { get; set; }
 
