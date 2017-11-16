@@ -12,27 +12,21 @@ namespace ConsoleApplication
     public class Writer : IWriter
     {
         private readonly Stream _stream;
-        private readonly string _separator;
+        private readonly string _lineSeparator;
         private readonly Encoding _encoding;
         private readonly IConverter _converter;
 
-        public Writer(Stream outputStream, IConverter converter)
+        public Writer(Stream outputStream, IConverter converter, string lineSeparator)
         {
             _stream = outputStream;
-            _separator = ";";
+            _lineSeparator = lineSeparator;
             _encoding = Encoding.GetEncoding("ISO-8859-1");
             _converter = converter;
         }
 
         public void WriteRow(string[] columns)
         {
-            var row = "";
-            foreach (var column in columns)
-            {
-                row += (row == "" ? "" : _separator) + column;
-            }
-
-            row = _converter.ConvertRow(columns) + Environment.NewLine;
+            var row = _converter.ConvertRow(columns) + _lineSeparator;
             var info = _encoding.GetBytes(row);
             _stream.Write(info, 0, info.Length);
         }

@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace FixWidth2CsvTest
 {
     [TestFixture]
-    public class ConvertFixWidthToCsvSpec
+    public class ConvertFixWidthToMatrixSpec
     {
         private WriterMock _writer;
         private ReaderMock _reader;

@@ -46,7 +46,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConvertFixWidthToCsvSpec.cs" />
+    <Compile Include="ConvertFixWidthToMatrixSpec.cs" />
     <Compile Include="DelimitersSpec.cs" />
     <Compile Include="FixWidthParser_ConvertRow.cs" />
     <Compile Include="FixWidthParser_ConvertText.cs" />
