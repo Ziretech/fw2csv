@@ -13,8 +13,8 @@ namespace ConsoleApplication
     {
         private readonly Stream _stream;
         private readonly string _separator;
-        private Encoding _encoding;
-        private IConverter _converter;
+        private readonly Encoding _encoding;
+        private readonly IConverter _converter;
 
         public Writer(Stream outputStream, IConverter converter)
         {

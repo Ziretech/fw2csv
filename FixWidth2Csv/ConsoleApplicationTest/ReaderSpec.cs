@@ -69,10 +69,9 @@ namespace ConsoleApplicationTest
         public void Reader_reads_line_containing_new_line()
         {
             var reader = new Reader(CreateStream("data1\n\ndata2"));
-            Assert.That(reader.ReadLine(1), Is.EqualTo("data1"));
+            Assert.That(reader.ReadLine(6), Is.EqualTo("data1\n"));
         }
-
-        [Ignore("Implement ByteBuffer")]
+        
         [Test]
         public void Reader_reads_two_lines_of_three()
         {
@@ -80,9 +79,78 @@ namespace ConsoleApplicationTest
             reader.ReadLine(1);
             Assert.That(reader.ReadLine(1), Is.EqualTo("data2"));
         }
-        // read more times
-        // \n in the line
-        
-        // eftersom bufferten måste vara längre än en rad, sträva alltid efter att fylla den (räkna ut differensen)
+
+        [Test]
+        public void Reader_reads_new_line_to_next_new_line()
+        {
+            var reader = new Reader(CreateStream("data1\ndata2\ndata3"));
+            Assert.That(reader.ReadLine(8), Is.EqualTo("data1\ndata2"));
+        }
+
+        [Test]
+        public void Reader_reads_carriage_return_new_line_to_next_new_line()
+        {
+            var reader = new Reader(CreateStream("data1\r\ndata2\ndata3"));
+            Assert.That(reader.ReadLine(8), Is.EqualTo("data1\r\ndata2"));
+        }
+
+        [Test]
+        public void Reader_reads_new_line_to_next_carriage_return_new_line()
+        {
+            var reader = new Reader(CreateStream("data1\ndata2\r\ndata3"));
+            Assert.That(reader.ReadLine(8), Is.EqualTo("data1\ndata2"));
+        }
+
+        [Test]
+        public void Reader_finds_no_lines_in_empty_stream()
+        {
+            var reader = new Reader(CreateStream(""));
+            Assert.That(reader.MoreLines, Is.False);
+        }
+
+        [Test]
+        public void Reader_finds_lines_in_stream_with_line()
+        {
+            var reader = new Reader(CreateStream("abcdef"));
+            Assert.That(reader.MoreLines, Is.True);
+        }
+
+        [Test]
+        public void Reader_finds_no_lines_after_all_is_read()
+        {
+            var reader = new Reader(CreateStream("abcdef"));
+            reader.ReadLine(0);
+            Assert.That(reader.MoreLines, Is.False);
+        }
+
+        [Test]
+        public void Reader_finds_more_lines_after_first_is_read()
+        {
+            var reader = new Reader(CreateStream("id  namn\n--- ----\n1   åke\n2   anna"));
+            reader.ReadLine(4);
+            Assert.That(reader.MoreLines, Is.True);
+        }
+
+        [Test]
+        public void Reader_finds_no_more_lines_after_all_is_read()
+        {
+            var reader = new Reader(CreateStream("id  namn\n--- ----\n1   åke\n2   anna"));
+            reader.ReadLine(4);
+            reader.ReadLine(4);
+            reader.ReadLine(4);
+            reader.ReadLine(4);
+            Assert.That(reader.MoreLines, Is.False);
+        }
+        [Test]
+        public void Reader_finds_no_more_lines_after_all_is_read_and_last_ending_with_new_line()
+        {
+            var reader = new Reader(CreateStream("id  namn\n--- ----\n1   åke\n2   anna\n"));
+            reader.ReadLine(4);
+            reader.ReadLine(4);
+            reader.ReadLine(4);
+            reader.ReadLine(4);
+            Assert.That(reader.MoreLines, Is.False);
+        }
+        // buffer overflow
     }
 }

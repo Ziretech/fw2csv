@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleApplication;
@@ -164,24 +165,120 @@ namespace ConsoleApplicationTest
         }
 
         [Test]
-        [Ignore("not sure this is resonable test (so how do we detect if buffer is to small?)")]
-        public void ByteBuffer_throws_exception_when_no_end_of_buffer_found_in_buffer()
+        public void ByteBuffer_dont_remove_anything_from_buffer_not_beginning_with_end_of_line()
         {
-            var stream = CreateStream("abcdefghij");
+            var stream = CreateStream("abcde");
             var buffer = new ByteBuffer(10);
             buffer.FillBuffer(stream);
+            buffer.RemoveEndLine();
+            Assert.That(buffer.GetString(_encoding, 5), Is.EqualTo("abcde"));
+        }
 
-            try
-            {
-                buffer.NextLineLength(1);
-                Assert.Fail("No exception was thrown.");
-            }
-            catch (InvalidOperationException exception)
-            {
-                Assert.That(exception.Message.ToLower(), Does.Contain("no end of line"));
-                Assert.That(exception.Message.ToLower(), Does.Contain("10"));
-            }
-            
+        [Test]
+        public void ByteBuffer_dont_remove_anything_from_empty_buffer()
+        {
+            var buffer = new ByteBuffer(10);
+            buffer.RemoveEndLine();
+        }
+
+        [Test]
+        public void ByteBuffer_remove_new_line_from_buffer_beginning_with_new_line()
+        {
+            var stream = CreateStream("\nabcde");
+            var buffer = new ByteBuffer(10);
+            buffer.FillBuffer(stream);
+            buffer.RemoveEndLine();
+            Assert.That(buffer.GetString(_encoding, 5), Is.EqualTo("abcde"));
+        }
+
+        [Test]
+        public void ByteBuffer_remove_new_line_from_buffer_beginning_with_carriage_return_new_line()
+        {
+            var stream = CreateStream("\r\nabcde");
+            var buffer = new ByteBuffer(10);
+            buffer.FillBuffer(stream);
+            buffer.RemoveEndLine();
+            Assert.That(buffer.GetString(_encoding, 5), Is.EqualTo("abcde"));
+        }
+
+        [Test]
+        public void ByteBuffer_fills_buffer_two_times()
+        {
+            var stream = CreateStream("abcdefghijk");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            buffer.MoveBytesLeft(4);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.GetString(_encoding, 4), Is.EqualTo("efgh"));
+        }
+
+        [Test]
+        public void ByteBuffer_fills_buffer_two_times_with_no_removal_between()
+        {
+            var stream = CreateStream("abcdefghijk");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.GetString(_encoding, 4), Is.EqualTo("abcd"));
+        }
+
+        [Test]
+        public void ByteBuffer_refills_buffer_and_reads_end()
+        {
+            var stream = CreateStream("abcdefghi");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            buffer.MoveBytesLeft(5);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.GetString(_encoding, 4), Is.EqualTo("fghi"));
+        }
+
+        [Test]
+        public void ByteBuffer_refills_buffer_and_returns_number_of_bytes()
+        {
+            var stream = CreateStream("abcdefghi");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            buffer.MoveBytesLeft(5);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.NextLineLength(1), Is.EqualTo(4));
+        }
+
+        [Test]
+        public void ByteBuffer_with_no_data_is_empty()
+        {
+            var buffer = new ByteBuffer(5);
+            Assert.That(buffer.IsEmpty, Is.True);
+        }
+
+        [Test]
+        public void ByteBuffer_with_data_is_not_empty()
+        {
+            var stream = CreateStream("abcdefghi");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.IsEmpty, Is.False);
+        }
+
+        [Test]
+        public void ByteBuffer_with_emptied_buffer_is_empty()
+        {
+            var stream = CreateStream("abcdefghi");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            buffer.MoveBytesLeft(5);
+            Assert.That(buffer.IsEmpty, Is.True);
+        }
+
+        [Test]
+        public void ByteBuffer_with_refilled_buffer_is_not_empty()
+        {
+            var stream = CreateStream("abcdefghi");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            buffer.MoveBytesLeft(5);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.IsEmpty, Is.False);
         }
     }
 }

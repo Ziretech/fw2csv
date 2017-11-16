@@ -12,6 +12,8 @@ namespace ConsoleApplication
         private readonly byte[] _buffer;
         private int _numberOfCharactersRead;
 
+        public bool IsEmpty => _numberOfCharactersRead == 0;
+
         public ByteBuffer(int bufferSize)
         {
             _buffer = new byte[bufferSize];
@@ -20,7 +22,7 @@ namespace ConsoleApplication
 
         public void FillBuffer(Stream stream)
         {
-            _numberOfCharactersRead = stream.Read(_buffer, 0, _buffer.Length);
+            _numberOfCharactersRead += stream.Read(_buffer, _numberOfCharactersRead, _buffer.Length - _numberOfCharactersRead);
         }
 
         internal string GetString(Encoding encoding, int numberOfCharacters)
@@ -31,14 +33,13 @@ namespace ConsoleApplication
             }
             var result = encoding.GetString(_buffer, 0, numberOfCharacters);
 
-            _numberOfCharactersRead -= numberOfCharacters;
-
             return result;
         }
 
         public void MoveBytesLeft(int moveLength)
         {
             Array.Copy(_buffer, moveLength, _buffer, 0, _numberOfCharactersRead - moveLength);
+            _numberOfCharactersRead -= moveLength;
         }
 
         // fill buffer
@@ -53,6 +54,25 @@ namespace ConsoleApplication
         {
             var index = Array.IndexOf(_buffer, endCondition, startIndex, _numberOfCharactersRead - startIndex);
             return index < startIndex ? _numberOfCharactersRead : index;
+        }
+
+        public void RemoveEndLine()
+        {
+            var numToRemove = 0;
+
+            if (_numberOfCharactersRead > 0 && _buffer[0] == Endline)
+            {
+                numToRemove = 1;
+            }
+            else if (_numberOfCharactersRead > 1 && _buffer[0] == CarriageReturn && _buffer[1] == Endline)
+            {
+                numToRemove = 2;
+            }
+
+            if (numToRemove > 0)
+            {
+                MoveBytesLeft(numToRemove);
+            }
         }
     }
 }
