@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,15 +16,25 @@ namespace ConsoleApplication
 
         static void Main(string[] args)
         {
-            using (var outputStream = File.OpenWrite(@"c:\temp\fil.txt"))
+            if (args.Length == 2)
             {
-                using (var inputStream = File.OpenRead(@"c:\temp\fixwidthexempel.txt"))
+                var inputFilePath = args[0];
+                var outputFilePath = args[1];
+
+                using (var outputStream = File.OpenWrite(outputFilePath))
                 {
-                    var writer = new Writer(outputStream, new CsvConverter(CellDelimiter), RowDelimiter);
-                    var reader = new Reader(inputStream);
-                    var converter = new ConvertFixWidthToMatrix { Writer = writer };
-                    converter.Convert(reader);
+                    using (var inputStream = File.OpenRead(inputFilePath))
+                    {
+                        var writer = new Writer(outputStream, new CsvConverter(CellDelimiter), RowDelimiter);
+                        var reader = new Reader(inputStream);
+                        var converter = new ConvertFixWidthToMatrix {Writer = writer};
+                        converter.Convert(reader);
+                    }
                 }
+            }
+            else
+            {
+                Console.Out.WriteLine("usage: <input file> <output file>");
             }
         }
     }
