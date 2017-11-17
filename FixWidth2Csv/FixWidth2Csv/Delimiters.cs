@@ -22,5 +22,17 @@ namespace FixWidth2Csv
                 yield return delimiter.Length;
             }
         }
+
+        public int GetMinimumRequiredRowWidth()
+        {
+            var minimumRequiredRowWidth = 0;
+
+            foreach (var width in GetColumnWidths().Reverse().Skip(1))
+            {
+                minimumRequiredRowWidth += width + 1;
+            }
+            
+            return minimumRequiredRowWidth;
+        }
     }
 }

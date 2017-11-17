@@ -26,9 +26,9 @@ namespace FixWidth2CsvTest
         [Test]
         public void Converter_converts_simple_text_to_csv()
         {
-            _reader.AddLine("a");
-            _reader.AddLine("-");
-            _reader.AddLine("b");
+            _reader.AddLine("a", 1);
+            _reader.AddLine("-", 1);
+            _reader.AddLine("b", 0);
             _converter.Convert(_reader);
 
             Assert.That(_writer.RowList[0], Is.EquivalentTo(new [] { "a" }));
@@ -38,9 +38,9 @@ namespace FixWidth2CsvTest
         [Test]
         public void Converter_converts_other_simple_text_to_csv()
         {
-            _reader.AddLine("namn");
-            _reader.AddLine("----");
-            _reader.AddLine("ola");
+            _reader.AddLine("namn", 1);
+            _reader.AddLine("----", 1);
+            _reader.AddLine("ola", 0);
             _converter.Convert(_reader);
 
             Assert.That(_writer.RowList[0], Is.EquivalentTo(new[] { "namn" }));
@@ -50,9 +50,9 @@ namespace FixWidth2CsvTest
         [Test]
         public void Converter_converts_2_column_text_to_csv()
         {
-            _reader.AddLine("id   namn");
-            _reader.AddLine("---- ----");
-            _reader.AddLine("12   ola");
+            _reader.AddLine("id   namn", 1);
+            _reader.AddLine("---- ----", 1);
+            _reader.AddLine("12   ola", 5);
             _converter.Convert(_reader);
 
             Assert.That(_writer.RowList[0], Is.EquivalentTo(new[] { "id", "namn" }));
@@ -62,10 +62,10 @@ namespace FixWidth2CsvTest
         [Test]
         public void Converter_converts_2_data_rows_to_csv()
         {
-            _reader.AddLine("id   namn");
-            _reader.AddLine("---- ----");
-            _reader.AddLine("12   ola");
-            _reader.AddLine("1245 sven");
+            _reader.AddLine("id   namn", 1);
+            _reader.AddLine("---- ----", 1);
+            _reader.AddLine("12   ola", 5);
+            _reader.AddLine("1245 sven", 5);
             _converter.Convert(_reader);
 
             Assert.That(_writer.RowList[0], Is.EquivalentTo(new[] { "id", "namn" }));
@@ -76,9 +76,9 @@ namespace FixWidth2CsvTest
         [Test]
         public void Converter_convert_column_with_width_2_2_2_and_middle_column_value_missing()
         {
-            _reader.AddLine("id by ås");
-            _reader.AddLine("-- -- --");
-            _reader.AddLine("cg    a");
+            _reader.AddLine("id by ås", 1);
+            _reader.AddLine("-- -- --", 1);
+            _reader.AddLine("cg    a", 6);
             _converter.Convert(_reader);
 
             Assert.That(_writer.RowList[0], Is.EquivalentTo(new[] { "id", "by", "ås" }));
@@ -88,10 +88,10 @@ namespace FixWidth2CsvTest
         [Test]
         public void Converter_convert_column_with_width_2_2_2_and_new_line_in_first_row_second_column_second_character()
         {
-            _reader.AddLine("id by   å");
-            _reader.AddLine("-- ---- --");
-            _reader.AddLine("cg a\n   eg");
-            _reader.AddLine("e  fy   i");
+            _reader.AddLine("id by   å", 1);
+            _reader.AddLine("-- ---- --", 1);
+            _reader.AddLine("cg a\n   eg", 8);
+            _reader.AddLine("e  fy   i", 8);
             _converter.Convert(_reader);
 
             Assert.That(_writer.RowList[0], Is.EquivalentTo(new[] { "id", "by", "å" }));
@@ -102,10 +102,10 @@ namespace FixWidth2CsvTest
         [Test]
         public void Converter_convert_column_with_width_2_2_2_and_cr_nl_in_first_row_second_column_second_character()
         {
-            _reader.AddLine("id by   å");
-            _reader.AddLine("-- ---- --");
-            _reader.AddLine("cg a\r\n  eg");
-            _reader.AddLine("e  fy   i");
+            _reader.AddLine("id by   å", 1);
+            _reader.AddLine("-- ---- --", 1);
+            _reader.AddLine("cg a\r\n  eg", 8);
+            _reader.AddLine("e  fy   i", 8);
             _converter.Convert(_reader);
 
             Assert.That(_writer.RowList[0], Is.EquivalentTo(new[] { "id", "by", "å" }));
