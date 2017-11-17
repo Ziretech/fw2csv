@@ -48,19 +48,11 @@
   <ItemGroup>
     <Compile Include="ConvertFixWidthToMatrixSpec.cs" />
     <Compile Include="DelimitersSpec.cs" />
-    <Compile Include="FixWidthParser_ConvertRow.cs" />
-    <Compile Include="FixWidthParser_ConvertText.cs" />
-    <Compile Include="FixWidthParser_GetColumnWidth.cs" />
-    <Compile Include="FixWidthParser_IsBrokenRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReaderMock.cs" />
-    <Compile Include="ReaderMockOld.cs" />
-    <Compile Include="ReaderMockOldSpec.cs" />
     <Compile Include="ReaderMockSpec.cs" />
     <Compile Include="RowsSpec.cs" />
     <Compile Include="WriterMock.cs" />
-    <Compile Include="WriterMockOld.cs" />
-    <Compile Include="WriterMockOldSpec.cs" />
     <Compile Include="WriterMockSpec.cs" />
   </ItemGroup>
   <ItemGroup>

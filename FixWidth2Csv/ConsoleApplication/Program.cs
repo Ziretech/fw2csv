@@ -10,8 +10,8 @@ namespace ConsoleApplication
 {
     class Program
     {
-        private const string rowDelimiter = "#*#";
-        private const string cellDelimiter = "{";
+        private const string RowDelimiter = "#*#";
+        private const string CellDelimiter = "{";
 
         static void Main(string[] args)
         {
@@ -19,40 +19,12 @@ namespace ConsoleApplication
             {
                 using (var inputStream = File.OpenRead(@"c:\temp\fixwidthexempel.txt"))
                 {
-                    var writer = new Writer(outputStream, new CsvConverter(cellDelimiter), rowDelimiter);
+                    var writer = new Writer(outputStream, new CsvConverter(CellDelimiter), RowDelimiter);
                     var reader = new Reader(inputStream);
                     var converter = new ConvertFixWidthToMatrix { Writer = writer };
                     converter.Convert(reader);
                 }
             }
         }
-    }
-
-    class WriterOld : IWriterOld
-    {
-        public string RowDelimiter { get; set; }
-
-        public void WriteRow(string line)
-        {
-            Console.Write(line + RowDelimiter);
-        }
-    }
-
-    class ReaderOld : IReaderOld
-    {
-        public string ReadLine()
-        {
-            var line = Console.ReadLine();
-            foreach (var delimiter in Delimiters)
-            {
-                if (!string.IsNullOrEmpty(line) && line.Contains(delimiter))
-                {
-                    throw new ArgumentException($"Source text contain delimiter sequence ({delimiter})");
-                }
-            }
-            return line;
-        }
-
-        public string[] Delimiters { get; set; }
     }
 }
