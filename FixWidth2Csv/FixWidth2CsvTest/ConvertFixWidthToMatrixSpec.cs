@@ -112,5 +112,25 @@ namespace FixWidth2CsvTest
             Assert.That(_writer.RowList[1], Is.EquivalentTo(new[] { "cg", "a\r\n", "eg" }));
             Assert.That(_writer.RowList[2], Is.EquivalentTo(new[] { "e", "fy", "i" }));
         }
+
+        [Test]
+        public void Converter_displays_which_row_was_processed_when_error_occurred()
+        {
+            _reader.AddLine("header", 1);
+            _reader.AddLine("------", 1);
+            _reader.AddLine("kort  ", 0);
+            _reader.AddLine("kort", -1);
+
+            try
+            {
+                _converter.Convert(_reader);
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("conversion error"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("4"));
+            }
+        }
     }
 }

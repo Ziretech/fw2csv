@@ -19,11 +19,21 @@ namespace FixWidth2Csv
 
             Writer.WriteRow(new Rows(headers, widths).GetCells().ToArray());
 
-            while(reader.MoreLines)
+            var currentLineNumber = 3;
+            try
             {
-                var rows = reader.ReadLine(minRowLength);
-                Writer.WriteRow(new Rows(rows, widths).GetCells().ToArray());
+                while (reader.MoreLines)
+                {
+                    var rows = reader.ReadLine(minRowLength);
+                    Writer.WriteRow(new Rows(rows, widths).GetCells().ToArray());
+                    currentLineNumber ++;
+                }
             }
+            catch (Exception exception)
+            {
+                throw new InvalidOperationException($"Conversion error occured during processing of line {currentLineNumber}", exception);
+            }
+            
         }
     }
 }

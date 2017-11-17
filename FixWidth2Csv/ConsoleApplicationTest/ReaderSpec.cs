@@ -141,6 +141,7 @@ namespace ConsoleApplicationTest
             reader.ReadLine(4);
             Assert.That(reader.MoreLines, Is.False);
         }
+
         [Test]
         public void Reader_finds_no_more_lines_after_all_is_read_and_last_ending_with_new_line()
         {
@@ -151,6 +152,21 @@ namespace ConsoleApplicationTest
             reader.ReadLine(4);
             Assert.That(reader.MoreLines, Is.False);
         }
-        // buffer overflow
+
+        [Test]
+        public void Reader_throws_exception_when_disallowed_string_a_is_found_in_line()
+        {
+            var reader = new Reader(CreateStream("a"), 10, new [] {"a"});
+            try
+            {
+                reader.ReadLine(1);
+                Assert.Fail("No exception is thrown.");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("disallowed characters"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("a"));
+            }
+        }
     }
 }
