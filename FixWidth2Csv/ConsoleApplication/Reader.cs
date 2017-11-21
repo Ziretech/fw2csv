@@ -15,6 +15,7 @@ namespace ConsoleApplication
         private readonly ByteBuffer _buffer;
         private readonly int _bufferSize;
         private readonly string[] _disallowedStrings;
+        private bool _firstRead;
         
         public Reader(Stream stream, int bufferSize = 1024, string[] disallowedStrings = null)
         {
@@ -23,6 +24,7 @@ namespace ConsoleApplication
             _bufferSize = bufferSize;
             _buffer = new ByteBuffer(_bufferSize);
             _disallowedStrings = disallowedStrings;
+            _firstRead = true;
         }
 
         public bool MoreLines
@@ -36,6 +38,12 @@ namespace ConsoleApplication
 
         public string ReadLine(int minimalNumberOfCharacters)
         {
+            if (_firstRead)
+            {
+                RemoveByteOrderMark();
+                _firstRead = false;
+            }
+
             _buffer.FillBuffer(_stream);
             var lineLength = _buffer.NextLineLength(minimalNumberOfCharacters);
             if (lineLength == _bufferSize)
@@ -56,6 +64,15 @@ namespace ConsoleApplication
             _buffer.MoveBytesLeft(lineLength);
             _buffer.RemoveEndLine();
             return line;
+        }
+
+        private void RemoveByteOrderMark()
+        {
+            _buffer.FillBuffer(_stream);
+            if (_buffer.BeginWithSequence(0xEF, 0xBB, 0xBF))
+            {
+                _buffer.MoveBytesLeft(3);
+            }
         }
     }
 }

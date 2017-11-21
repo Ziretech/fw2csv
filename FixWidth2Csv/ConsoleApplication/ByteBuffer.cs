@@ -42,11 +42,13 @@ namespace ConsoleApplication
             _numberOfCharactersRead -= moveLength;
         }
 
-        // fill buffer
-        // is buffer empty
-        // get part of buffer
         public int NextLineLength(int minNumberOfBytes)
         {
+            if (_numberOfCharactersRead < minNumberOfBytes)
+            {
+                throw new InvalidOperationException($"Line is shorter ({_numberOfCharactersRead}) than required minimum number of bytes ({minNumberOfBytes}). ");
+            }
+
             return Math.Min(Math.Min(IndexOfEnd(minNumberOfBytes, 0), IndexOfEnd(minNumberOfBytes, Endline)), IndexOfEnd(minNumberOfBytes, CarriageReturn));
         }
 
@@ -60,11 +62,11 @@ namespace ConsoleApplication
         {
             var numToRemove = 0;
 
-            if (_numberOfCharactersRead > 0 && _buffer[0] == Endline)
+            if (BeginWithSequence(Endline))
             {
                 numToRemove = 1;
             }
-            else if (_numberOfCharactersRead > 1 && _buffer[0] == CarriageReturn && _buffer[1] == Endline)
+            else if (BeginWithSequence(CarriageReturn, Endline))
             {
                 numToRemove = 2;
             }
@@ -73,6 +75,21 @@ namespace ConsoleApplication
             {
                 MoveBytesLeft(numToRemove);
             }
+        }
+
+        public bool BeginWithSequence(params byte[] sequence)
+        {
+            if (sequence.Length > _numberOfCharactersRead)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < sequence.Length; i++)
+            {
+                if (_buffer[i] != sequence[i])
+                    return false;
+            }
+            return true;
         }
     }
 }

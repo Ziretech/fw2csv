@@ -14,8 +14,12 @@ namespace ConsoleApplicationTest
     {
         private Stream CreateStream(string message)
         {
+            return CreateStream(Encoding.UTF8.GetBytes(message));
+        }
+
+        private Stream CreateStream(byte[] buffer)
+        {
             var stream = new MemoryStream();
-            var buffer = Encoding.UTF8.GetBytes(message);
             stream.Write(buffer, 0, buffer.Length);
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
@@ -99,6 +103,13 @@ namespace ConsoleApplicationTest
         {
             var reader = new Reader(CreateStream("data1\ndata2\r\ndata3"));
             Assert.That(reader.ReadLine(8), Is.EqualTo("data1\ndata2"));
+        }
+
+        [Test]
+        public void Reader_removes_BOM_from_first_stream_entry()
+        {
+            var reader = new Reader(CreateStream(new[] { (byte)0xEF, (byte)0xBB, (byte)0xBF, (byte)'a' }));
+            Assert.That(reader.ReadLine(0), Is.EqualTo("a"));
         }
 
         [Test]

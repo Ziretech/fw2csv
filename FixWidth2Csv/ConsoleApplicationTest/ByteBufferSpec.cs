@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -245,6 +246,26 @@ namespace ConsoleApplicationTest
         }
 
         [Test]
+        public void ByteBuffer_throws_exception_when_last_line_is_shorter_than_required()
+        {
+            var stream = CreateStream("abcde");
+            var buffer = new ByteBuffer(10);
+            buffer.FillBuffer(stream);
+            try
+            {
+                buffer.NextLineLength(7);
+                Assert.Fail("No exception was thrown.");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.That(exception.Message.ToLower(), Does.Contain("line is shorter"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("5"));
+                Assert.That(exception.Message.ToLower(), Does.Contain("7"));
+            }
+            
+        }
+
+        [Test]
         public void ByteBuffer_with_no_data_is_empty()
         {
             var buffer = new ByteBuffer(5);
@@ -279,6 +300,51 @@ namespace ConsoleApplicationTest
             buffer.MoveBytesLeft(5);
             buffer.FillBuffer(stream);
             Assert.That(buffer.IsEmpty, Is.False);
+        }
+
+        [Test]
+        public void ByteBuffer_identifies_that_buffer_begins_with_a()
+        {
+            var stream = CreateStream("a");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.BeginWithSequence(new []{(byte)'a'}), Is.True);
+        }
+
+        [Test]
+        public void ByteBuffer_identifies_that_buffer_dont_begin_with_a()
+        {
+            var stream = CreateStream("b");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.BeginWithSequence(new[] { (byte)'a' }), Is.False);
+        }
+
+        [Test]
+        public void ByteBuffer_identifies_that_buffer_begins_with_ab()
+        {
+            var stream = CreateStream("ab");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.BeginWithSequence(new[] { (byte)'a', (byte)'b' }), Is.True);
+        }
+
+        [Test]
+        public void ByteBuffer_identifies_that_buffer_with_ac_dont_begins_with_ab()
+        {
+            var stream = CreateStream("ac");
+            var buffer = new ByteBuffer(5);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.BeginWithSequence(new[] { (byte)'a', (byte)'b' }), Is.False);
+        }
+
+        [Test]
+        public void ByteBuffer_identifies_that_buffer_shorter_than_sequence_cant_contain_sequence()
+        {
+            var stream = CreateStream("datat");
+            var buffer = new ByteBuffer(2);
+            buffer.FillBuffer(stream);
+            Assert.That(buffer.BeginWithSequence(new[] { (byte)'d', (byte)'a', (byte)'t' }), Is.False);
         }
     }
 }
