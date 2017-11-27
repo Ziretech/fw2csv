@@ -1,12 +1,8 @@
 ﻿using NUnit.Framework;
-using FixWidth2Csv;
-using System;
-using System.Collections.Generic;
+using Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FixWidth2CsvTest
+namespace EntityTest
 {
     [TestFixture]
     public class DelimitersSpec

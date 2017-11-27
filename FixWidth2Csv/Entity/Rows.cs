@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace FixWidth2Csv
+namespace Entity
 {
-    internal class Rows
+    public class Rows
     {
         private string _rowString;
         private IEnumerable<int> _cellWidths;

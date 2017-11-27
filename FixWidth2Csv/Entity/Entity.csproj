@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7474CFD4-A1D3-456A-9A2E-0513A249EB7E}</ProjectGuid>
+    <ProjectGuid>{68429445-BBA1-4233-931F-3C2B8B200795}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FixWidth2Csv</RootNamespace>
-    <AssemblyName>FixWidth2Csv</AssemblyName>
+    <RootNamespace>Entity</RootNamespace>
+    <AssemblyName>Entity</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,16 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConvertFixWidthToMatrix.cs" />
-    <Compile Include="IReader.cs" />
-    <Compile Include="IWriter.cs" />
+    <Compile Include="Delimiters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Entity\Entity.csproj">
-      <Project>{68429445-bba1-4233-931f-3c2b8b200795}</Project>
-      <Name>Entity</Name>
-    </ProjectReference>
+    <Compile Include="Rows.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

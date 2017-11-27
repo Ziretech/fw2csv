@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FixWidth2Csv;
+using ConsoleAdapter;
 
 namespace ConsoleApplication
 {

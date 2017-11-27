@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FixWidth2Csv;
+using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using FixWidth2Csv;
 
-namespace ConsoleApplication
+namespace ConsoleAdapter
 {
-    class Reader : IReader
+    public class Reader : IReader
     {
         private readonly Stream _stream;
         private readonly Encoding _encoding;

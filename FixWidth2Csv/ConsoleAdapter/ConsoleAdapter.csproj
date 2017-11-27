@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7474CFD4-A1D3-456A-9A2E-0513A249EB7E}</ProjectGuid>
+    <ProjectGuid>{3480AF93-5C65-4E91-8B9A-97F4985BAA87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FixWidth2Csv</RootNamespace>
-    <AssemblyName>FixWidth2Csv</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>ConsoleAdapter</RootNamespace>
+    <AssemblyName>ConsoleAdapter</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,15 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConvertFixWidthToMatrix.cs" />
-    <Compile Include="IReader.cs" />
-    <Compile Include="IWriter.cs" />
+    <Compile Include="ByteBuffer.cs" />
+    <Compile Include="CsvConverter.cs" />
+    <Compile Include="IConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reader.cs" />
+    <Compile Include="Writer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{68429445-bba1-4233-931f-3c2b8b200795}</Project>
       <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FixWidth2Csv\FixWidth2Csv.csproj">
+      <Project>{7474cfd4-a1d3-456a-9a2e-0513a249eb7e}</Project>
+      <Name>FixWidth2Csv</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

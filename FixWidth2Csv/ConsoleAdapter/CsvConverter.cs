@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace ConsoleApplication
+namespace ConsoleAdapter
 {
-    class CsvConverter : IConverter
+    public class CsvConverter : IConverter
     {
         private readonly string _cellSeparator;
 

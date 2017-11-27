@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using ConsoleApplication;
 using NUnit.Framework;
+using ConsoleAdapter;
 
-namespace ConsoleApplicationTest
+namespace ConsoleAdapterTest
 {
     [TestFixture]
     public class ByteBufferSpec
     {
         private readonly Encoding _encoding = Encoding.UTF8;
-
 
         private Stream CreateStream(string message)
         {

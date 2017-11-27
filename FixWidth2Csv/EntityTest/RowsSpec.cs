@@ -1,12 +1,7 @@
-﻿using FixWidth2Csv;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NUnit.Framework;
+using Entity;
 
-namespace FixWidth2CsvTest
+namespace EntityTest
 {
     [TestFixture]
     public class RowsSpec

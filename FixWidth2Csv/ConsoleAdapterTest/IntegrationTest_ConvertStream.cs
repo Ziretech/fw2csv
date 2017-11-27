@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApplication;
+﻿using System.Text;
 using FixWidth2Csv;
 using NUnit.Framework;
 using System.IO;
+using ConsoleAdapter;
 
-namespace ConsoleApplicationTest
+namespace ConsoleAdapterTest
 {
     [TestFixture]
     public class IntegrationTest_ConvertStream
